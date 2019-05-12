@@ -1,5 +1,5 @@
 <template>
-    <div class="container" st>
+    <div class="container">
         <b-button-group class="a" vertical>
             <div>{{no+1}} / {{questions.length}}</div>
             <b-button @click="next(0)">{{questions[no][0]['statement']}}</b-button>
@@ -45,9 +45,6 @@ export default {
 
 
 <style scoped>
-.container {
-    
-}
 .a {
     width: 100%;
 }
