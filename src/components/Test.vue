@@ -34,7 +34,7 @@ export default {
 
             if (this.no >= 30) {
                 this.$router.push({
-                    name: 'result',
+                    name: 'survey',
                     params: this.result
                 })
             }
