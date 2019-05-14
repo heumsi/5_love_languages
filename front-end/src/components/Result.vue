@@ -19,7 +19,7 @@ import type_name from '@/assets/type_name.json'
 export default {
   name: "Result",
   data() {
-    const result = this.$route.params;
+    const result = this.$route.params
 
     var values = [];
     values.push(result);
@@ -32,6 +32,8 @@ export default {
     for (var i in top) {
       top_name.push(type_name[top[i]])
     }
+
+    console.log(type_name)
 
     return {
       values: values,

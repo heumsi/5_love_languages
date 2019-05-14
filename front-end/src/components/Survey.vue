@@ -19,33 +19,63 @@
           class="marriage-box"
         ></b-form-radio-group>
       </b-form-group>
-      <b-button @click="to_result">결과 확인</b-button>
+      <b-button variant="primary" 
+        :disabled="isValid"
+        @click="to_result">결과 확인</b-button>
     </div>
   </div>
 </template>
 <script>
+import axios from "axios";
+
 export default {
   name: "Survey",
   data() {
     return {
-      sex: "M",
+      sex: null,
       sex_options: [{ text: "남자", value: "M" }, { text: "여자", value: "F" }],
-      age: 0,
+      age: null,
       age_options: [...Array(100).keys()],
-      marriage: "single",
+      marriage: null,
       marriage_options: [
         { text: "미혼", value: "single" },
         { text: "기혼", value: "married" }
-      ]
+      ],
     };
+  },
+  computed: {
+    isValid() {
+      return this.sex == null || this.age == null || this.marriage == null
+    }
   },
   methods: {
     to_result() {
+      // calculate top3 type of user.
+      let score = this.$route.params
+      let type_name_sorted = Object.keys(score);    
+      type_name_sorted.sort((a, b) => {return score[b] - score[a]});
+      let top = type_name_sorted.slice(0, 3)
+
+      // make result object.
+      let result = score
+      for (var i in top) {
+        result["top"+i] = top[i]
+      }
+      result['sex'] = this.sex
+      result['age'] = this.age
+      result['marriage'] = this.marriage
+      result['timestamp'] = Date.now()
+
+      // insert result into DB. 
+      axios.post('http://localhost:5000/addResult', result)
+      console.log(result)
+
+      // redirect into result page.
       this.$router.push({
-        name: "result",
-        params: this.$route.params
+         name: "result",
+         params: score
       });
-    }
+    },
   }
 };
 </script>

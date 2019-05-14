@@ -9,6 +9,8 @@
 <script>
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import type_name from '@/assets/type_name.json'
+
 export default {
   name: 'App',
   components: {
